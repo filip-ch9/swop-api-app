@@ -42,7 +42,9 @@ To run this project, you will need the following:
      2. Build the project again with `./gradlew build`
      3. Run the provided docker-compose.yml file.
 
-## Swagger Documentation
+   
+## <img src="https://cdn.svgporn.com/logos/swagger.svg" width="20" height="20"> Swagger Documentation
+
 Access the Swagger documentation at [http://localhost:9090/webjars/swagger-ui/index.html](http://localhost:9090/webjars/swagger-ui/index.html) to explore the documentation for the API endpoints and their usage.
 
 ## Testing the API
