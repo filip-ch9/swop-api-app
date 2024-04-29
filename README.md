@@ -41,3 +41,9 @@ Access the Swagger documentation at [http://localhost:9090/webjars/swagger-ui/in
 You can test the API either directly from Swagger or using the following `curl` command:
 ```bash
 curl --location 'http://localhost:9090/api/currency/exchange?base_currency=USD&target_currency=EUR&amount=140'
+```
+
+## Accessing the UI
+You can access the ui on http://localhost:63342 once the service has been started. Should look something like this:
+![img.png](img.png)
+
