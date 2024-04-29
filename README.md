@@ -32,7 +32,7 @@ To run this project, you will need the following:
 
 ## How to Start
 ### IntelliJ way: 
-1. Open the project, and run the influx and grafana before anything else [OPTIONAL] 
+1. Open the project, and run the influx and grafana before anything else `[OPTIONAL]`
 2. Build the project with gradle or run in the terminal `./gradlew build`
 3. Start the application with IntelliJ
 ### Docker way: 
