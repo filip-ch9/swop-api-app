@@ -1,9 +1,12 @@
 package com.swop.api.assignment.swopapi.service;
 
+import com.swop.api.assignment.swopapi.api.dto.CurrencyCodes;
 import com.swop.api.assignment.swopapi.api.dto.CurrencyResponse;
 import com.swop.api.assignment.swopapi.dto.SwopApiResponse;
+import com.swop.api.assignment.swopapi.exception.CurrencyExchangeBadRequestException;
 import com.swop.api.assignment.swopapi.exception.CurrencyExchangeException;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -12,6 +15,7 @@ import reactor.core.publisher.Mono;
 
 import java.text.NumberFormat;
 import java.util.Currency;
+import java.util.HashSet;
 import java.util.List;
 import java.util.function.Function;
 
@@ -20,10 +24,20 @@ import java.util.function.Function;
 public class CurrencyService {
 
     private final Function<String, Mono<List<SwopApiResponse>>> swopCache;
-
     private final Logger logger = LoggerFactory.getLogger(CurrencyService.class);
 
-    public Mono<CurrencyResponse> exchangeCurrency(String sourceCurrency, String targetCurrency, Double amount) {
+    public Mono<CurrencyResponse> exchange(String sourceCurrency,
+                                           String targetCurrency,
+                                           Double amount) {
+        if (!new HashSet<>(CurrencyCodes.CURRENCY_CODES).containsAll(List.of(sourceCurrency, targetCurrency))) {
+            return Mono.error(new CurrencyExchangeBadRequestException("Invalid input data! Please use valid currency code!"));
+        }
+        return exchangeCurrency(sourceCurrency, targetCurrency, amount);
+    }
+
+    public Mono<CurrencyResponse> exchangeCurrency(String sourceCurrency,
+                                                   String targetCurrency,
+                                                   Double amount) {
         return getCurrencyCache()
                 .collectList()
                 .flatMap(currencyList -> {
@@ -41,16 +55,8 @@ public class CurrencyService {
                                                             String targetCurrency,
                                                             Double amount,
                                                             List<SwopApiResponse> currencyList) {
-        Double sourceCurrencyValue = currencyList.stream()
-                .filter(v -> "EUR".equals(v.getBaseCurrency()) && v.getQuoteCurrency().equals(sourceCurrency))
-                .findFirst()
-                .map(SwopApiResponse::getQuote)
-                .orElse(null);
-        Double targetCurrencyValue = currencyList.stream()
-                .filter(v -> "EUR".equals(v.getBaseCurrency()) && v.getQuoteCurrency().equals(targetCurrency))
-                .findFirst()
-                .map(SwopApiResponse::getQuote)
-                .orElse(null);
+        Double sourceCurrencyValue = getQuote(sourceCurrency, currencyList);
+        Double targetCurrencyValue = getQuote(targetCurrency, currencyList);
         if (sourceCurrencyValue != null && targetCurrencyValue != null && sourceCurrencyValue != 0) {
             double rate = targetCurrencyValue / sourceCurrencyValue;
             return Mono.just(CurrencyResponse.builder()
@@ -61,6 +67,15 @@ public class CurrencyService {
         } else {
             return Mono.error(new CurrencyExchangeException("Error occurred while calculating exchange rate"));
         }
+    }
+
+    @Nullable
+    private static Double getQuote(String sourceCurrency, List<SwopApiResponse> currencyList) {
+        return currencyList.stream()
+                .filter(v -> "EUR".equals(v.getBaseCurrency()) && v.getQuoteCurrency().equals(sourceCurrency))
+                .findFirst()
+                .map(SwopApiResponse::getQuote)
+                .orElse(null);
     }
 
     private String formatMonetaryValue(Double exchangeResult, String targetCurrency) {

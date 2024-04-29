@@ -15,7 +15,7 @@ public class CurrencyController implements CurrencyEndpoint {
 
     @Override
     public Mono<CurrencyResponse> currencyExchange(String sourceCurrency, String targetCurrency, Double amount) {
-        return currencyService.exchangeCurrency(sourceCurrency, targetCurrency, amount);
+        return currencyService.exchange(sourceCurrency, targetCurrency, amount);
     }
 
 }
