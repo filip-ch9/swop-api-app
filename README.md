@@ -54,7 +54,9 @@ curl --location 'http://localhost:9090/api/currency/exchange?base_currency=USD&t
 ```
 
 ## Accessing the UI
-You can access the ui on http://localhost:63342/swop-api/swop-api.main/static/index.html?_ijt=ek7iirfhr9bd876cem4ffqgm7e&_ij_reload=RELOAD_ON_SAVE once the service has been started. Should look something like this: 
+The frontend is set up with a minimalistic approach, utilizing a single HTML file containing the basic structure of the user interface. This HTML file incorporates some JavaScript code to add simple interactivity and functionality to the UI.
+
+You can access the index.html file on http://localhost:63342/swop-api/swop-api.main/static/index.html?_ijt=ek7iirfhr9bd876cem4ffqgm7e&_ij_reload=RELOAD_ON_SAVE once the service has been started. Should look something like this: 
 
 <img src="img.png" width="639" alt="">
 

@@ -25,3 +25,5 @@ management:
         token: Token yFWDejRYAeRbLVzgtlgReZJikNI8UAD3pJNQw0bZ-udOPRJw4PNqwtjO8ZkIMKi9uzo9JOo66_Azd-idyD1VWw==
         org: swop-api
         uri: http://localhost:8086/
+        user-name: admin
+        password: password

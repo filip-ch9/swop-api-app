@@ -1,7 +1,7 @@
 package com.swop.api.assignment.swopapi.documentation;
 
-import com.swop.api.assignment.swopapi.dto.CurrencyResponse;
-import com.swop.api.assignment.swopapi.dto.ErrorResponse;
+import com.swop.api.assignment.swopapi.api.dto.CurrencyResponse;
+import com.swop.api.assignment.swopapi.api.dto.ApiError;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -29,32 +29,24 @@ import java.lang.annotation.Target;
                 )),
         @ApiResponse(responseCode = "400", description = "Bad request",
                 content = @Content(mediaType = "application/json",
-                schema = @Schema(implementation = ErrorResponse.class),
+                schema = @Schema(implementation = ApiError.class),
                 examples = @ExampleObject(
                         """     
                            {
-                              "timestamp": "2024-04-28T14:16:34.618+00:00",
-                              "path": "/api/currency/exchange",
-                              "status": 400,
-                              "error": "Bad Request",
-                              "message": "Invalid Input, required parameter is missing!",
-                              "requestId": "c0a5e5c0-9"      
+                              "status": BAD REQUEST,
+                              "message": "Invalid Input, required parameter is missing!"    
                            }
                          """
                 ))
         ),
         @ApiResponse(responseCode = "500", description = "Server Error",
                 content = @Content(mediaType = "application/json",
-                        schema = @Schema(implementation = ErrorResponse.class),
+                        schema = @Schema(implementation = ApiError.class),
                         examples = @ExampleObject(
                                 """     
                                    {
-                                      "timestamp": "2024-04-28T14:16:34.618+00:00",
-                                      "path": "/api/currency/exchange",
-                                      "status": 500,
-                                      "error": "Internal Server Error",
-                                      "message": "Invalid Currency Input: Base or target currency not found!",
-                                      "requestId": "c0a5e5c0-9"      
+                                      "status": "INTERNAL_SERVER_ERROR",
+                                      "message": "Localised error message"
                                    }
                                  """
                         )))

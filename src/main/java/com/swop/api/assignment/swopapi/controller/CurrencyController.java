@@ -1,7 +1,7 @@
 package com.swop.api.assignment.swopapi.controller;
 
 import com.swop.api.assignment.swopapi.api.CurrencyEndpoint;
-import com.swop.api.assignment.swopapi.dto.CurrencyResponse;
+import com.swop.api.assignment.swopapi.api.dto.CurrencyResponse;
 import com.swop.api.assignment.swopapi.service.CurrencyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +14,8 @@ public class CurrencyController implements CurrencyEndpoint {
     private final CurrencyService currencyService;
 
     @Override
-    public Mono<CurrencyResponse> currencyExchange(String baseCurrency, String targetCurrency, Double amount) {
-        return currencyService.exchangeCurrency(baseCurrency, targetCurrency, amount);
+    public Mono<CurrencyResponse> currencyExchange(String sourceCurrency, String targetCurrency, Double amount) {
+        return currencyService.exchangeCurrency(sourceCurrency, targetCurrency, amount);
     }
 
 }

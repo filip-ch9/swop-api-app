@@ -4,11 +4,11 @@ import io.micrometer.core.instrument.Clock;
 import io.micrometer.core.ipc.http.OkHttpSender;
 import io.micrometer.influx.InfluxConfig;
 import io.micrometer.influx.InfluxMeterRegistry;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +17,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.Duration;
 
+
 @Configuration
-@EnableConfigurationProperties(WebProperties.class)
+@EnableConfigurationProperties({WebProperties.class})
 @RequiredArgsConstructor
 public class SwopApiConfig {
 
@@ -48,7 +49,6 @@ public class SwopApiConfig {
         httpClient.addInterceptor(chain -> {
             Request original = chain.request();
 
-            // skip others than write
             if (!original.url().pathSegments().contains("write")) {
                 return  chain.proceed(original);
             }

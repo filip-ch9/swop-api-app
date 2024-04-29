@@ -30,7 +30,6 @@ dependencies {
 	implementation("com.github.ben-manes.caffeine:caffeine:3.1.1")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	compileOnly("jakarta.servlet:jakarta.servlet-api:6.0.0")
-	implementation("com.google.guava:guava:33.0.0-jre")
 	implementation("com.influxdb:influxdb-client-java:7.0.0")
 	implementation("io.micrometer:micrometer-registry-influx:1.12.2")
 	implementation("io.micrometer:micrometer-core:1.12.2")
