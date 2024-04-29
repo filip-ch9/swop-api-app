@@ -54,7 +54,7 @@ curl --location 'http://localhost:9090/api/currency/exchange?base_currency=USD&t
 ```
 
 ## Accessing the UI
-You can access the ui on http://localhost:63342 once the service has been started. Should look something like this: 
+You can access the ui on http://localhost:63342/swop-api/swop-api.main/static/index.html?_ijt=ek7iirfhr9bd876cem4ffqgm7e&_ij_reload=RELOAD_ON_SAVE once the service has been started. Should look something like this: 
 
-![img.png](img.png)
+<img src="img.png" width="639" alt="">
 
