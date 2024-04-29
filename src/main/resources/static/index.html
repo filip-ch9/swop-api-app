@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        #app {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .result {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h1>Currency Converter</h1>
+    <div class="input-group">
+        <label for="amount">Enter Amount:</label>
+        <input type="number" v-model.number="amount" placeholder="Enter Amount">
+    </div>
+    <div class="input-group">
+        <label for="baseCurrency">Convert From:</label>
+        <input type="text" v-model="baseCurrency" placeholder="Example value EUR">
+    </div>
+    <div class="input-group">
+        <label for="targetCurrency">Convert To:</label>
+        <input type="text" v-model="targetCurrency" placeholder="Example value USD">
+    </div>
+    <button @click="convertCurrency">Convert</button>
+    <div class="result" v-if="result !== null">
+        {{ amount }} {{ baseCurrency }} equals {{ result }}
+    </div>
+</div>
+
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            amount: '',
+            result: null,
+            baseCurrency: '',
+            targetCurrency: ''
+        },
+        methods: {
+
+            convertCurrency: function () {
+                // Prepare request data
+                const requestData = {
+                    base_currency: this.baseCurrency,
+                    target_currency: this.targetCurrency,
+                    amount: parseFloat(this.amount) // Ensure amount is parsed to float
+                };
+
+                // Make fetch request
+                fetch('http://localhost:9090/api/currency/exchange?' + new URLSearchParams(requestData), {
+                    method: 'GET',
+                    headers: { 'X-XSRF-TOKEN': 'XSRF-TOKEN'},
+                }).then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(res => {
+                        this.result = res.monetaryValue;
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+            }
+        }
+    });
+</script>
+</body>
+</html>

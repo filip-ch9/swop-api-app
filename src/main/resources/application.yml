@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: swop-api
+  mandatory-file-encoding: utf-8
+server:
+  port: 9090
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: on_param
+    include-exception: false
+
+web:
+  swop-base-url: https://swop.cx
+  api-key: ApiKey b9dfb628b30ca616f79395045750b7b94688ed6b00006593f79ee410500fa574
+
+management:
+  health:
+    influxdb:
+      enabled: true
+  influx:
+    metrics:
+      export:
+        bucket: swop-api-metrics
+        token: Token yFWDejRYAeRbLVzgtlgReZJikNI8UAD3pJNQw0bZ-udOPRJw4PNqwtjO8ZkIMKi9uzo9JOo66_Azd-idyD1VWw==
+        org: swop-api
+        uri: http://localhost:8086/
