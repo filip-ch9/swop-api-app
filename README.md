@@ -53,6 +53,13 @@ You can test the API either directly from Swagger or using the following `curl` 
 curl --location 'http://localhost:9090/api/currency/exchange?base_currency=USD&target_currency=EUR&amount=140'
 ```
 
+## Unit tests
+To run unit tests, execute the following command:
+
+```bash
+./gradlew test
+```
+
 ## Accessing the UI
 The frontend is set up with a minimalistic approach, utilizing a single HTML file containing the basic structure of the user interface. This HTML file incorporates some JavaScript code to add simple interactivity and functionality to the UI.
 
