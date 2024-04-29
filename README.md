@@ -44,6 +44,7 @@ curl --location 'http://localhost:9090/api/currency/exchange?base_currency=USD&t
 ```
 
 ## Accessing the UI
-You can access the ui on http://localhost:63342 once the service has been started. Should look something like this:
+You can access the ui on http://localhost:63342 once the service has been started. Should look something like this: 
+
 ![img.png](img.png)
 
