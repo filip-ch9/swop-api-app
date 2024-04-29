@@ -24,7 +24,7 @@ To run this project, you will need the following:
     - Password: ```password```
     - Organization: ```swop-api```
     - Bucket: ```swop-api-metrics```
-2. Obtain the API key provided by InfluxDB after setup and replace it with ```Token asdawd...``` in the application.yml file.
+2. Obtain the API key provided by InfluxDB after setup and replace it with ```management.influx.metrics.export.token=Token asdawd...``` in the application.yml file.
 3. Configure Grafana at http://localhost:3000 with the default credentials:
     - Username: admin
     - Password: admin (remember to reset the password after initial login).
