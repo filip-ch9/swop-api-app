@@ -59,8 +59,8 @@
         <input type="number" v-model.number="amount" placeholder="Enter Amount">
     </div>
     <div class="input-group">
-        <label for="baseCurrency">Convert From:</label>
-        <input type="text" v-model="baseCurrency" placeholder="Example value EUR">
+        <label for="sourceCurrency">Convert From:</label>
+        <input type="text" v-model="sourceCurrency" placeholder="Example value EUR">
     </div>
     <div class="input-group">
         <label for="targetCurrency">Convert To:</label>
@@ -68,7 +68,7 @@
     </div>
     <button @click="convertCurrency">Convert</button>
     <div class="result" v-if="result !== null">
-        {{ amount }} {{ baseCurrency }} equals {{ result }}
+        {{ amount }} {{ sourceCurrency }} equals {{ result }}
     </div>
 </div>
 
@@ -78,7 +78,7 @@
         data: {
             amount: '',
             result: null,
-            baseCurrency: '',
+            sourceCurrency: '',
             targetCurrency: ''
         },
         methods: {
@@ -86,7 +86,7 @@
             convertCurrency: function () {
                 // Prepare request data
                 const requestData = {
-                    base_currency: this.baseCurrency,
+                    source_currency: this.sourceCurrency,
                     target_currency: this.targetCurrency,
                     amount: parseFloat(this.amount) // Ensure amount is parsed to float
                 };
