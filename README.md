@@ -31,8 +31,16 @@ To run this project, you will need the following:
 4. Add InfluxDB as a data source in Grafana for visualization of metrics. Example: [Tutorial](https://docs.influxdata.com/influxdb/cloud/tools/grafana/#:~:text=In%20the%20left%20navigation%20of,for%20your%20InfluxDB%20data%20source)
 
 ## How to Start
-1. Open the project in IntelliJ IDEA and build it with `./gradlew build`, or import it to your preferred IDE. After build just run the project
-2. Alternatively, run the provided `docker-compose.yml` file using Docker `docker compose up` to start the application, InfluxDB, and Grafana.
+### IntelliJ way: 
+1. Open the project, and run the influx and grafana before anything else [OPTIONAL] 
+2. Build the project with gradle or run in the terminal `./gradlew build`
+3. Start the application with IntelliJ
+### Docker way: 
+1. Run the provided docker-compose.yml. This will start all three images influx, grafana, and the swop-api.
+2. Optional steps: 
+     1. Configure metrics as per optional section [above](#For-optional-metrics-setup).
+     2. Build the project again with `./gradlew build`
+     3. Run the provided docker-compose.yml file.
 
 ## Swagger Documentation
 Access the Swagger documentation at [http://localhost:9090/webjars/swagger-ui/index.html](http://localhost:9090/webjars/swagger-ui/index.html) to explore the documentation for the API endpoints and their usage.
