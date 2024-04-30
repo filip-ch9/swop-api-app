@@ -14,28 +14,27 @@ import reactor.core.publisher.Mono;
 
 import java.text.NumberFormat;
 import java.util.Currency;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
+
+import static com.swop.api.assignment.swopapi.util.ValidationUtil.isValidCurrency;
+import static com.swop.api.assignment.swopapi.util.ValidationUtil.validate;
 
 @Service
 @RequiredArgsConstructor
 public class CurrencyService {
 
     private final Function<String, Mono<List<SwopApiResponse>>> swopCache;
-    private final Logger logger = LoggerFactory.getLogger(CurrencyService.class);
+    private static final Logger logger = LoggerFactory.getLogger(CurrencyService.class);
 
     public Mono<CurrencyResponse> exchange(String sourceCurrency,
                                            String targetCurrency,
                                            Double amount) {
-        if (isValidCurrency(sourceCurrency, targetCurrency) && amount < 0) {
+        if (!isValidCurrency(sourceCurrency, targetCurrency) || amount < 0) {
             return Mono.error(new CurrencyExchangeBadRequestException("Invalid input data! Please use valid currency code! Or check the value, it must be positive value"));
         }
         return exchangeCurrency(sourceCurrency, targetCurrency, amount);
-    }
-
-    private static boolean isValidCurrency(String sourceCurrency, String targetCurrency) {
-        return Currency.getAvailableCurrencies().contains(Currency.getInstance(sourceCurrency)) && Currency.getAvailableCurrencies().contains(Currency.getInstance(targetCurrency));
     }
 
     public Mono<CurrencyResponse> exchangeCurrency(String sourceCurrency,
@@ -90,12 +89,6 @@ public class CurrencyService {
 
     public Flux<SwopApiResponse> getCurrencyCache() {
         return swopCache.apply("currencies").flatMapMany(Flux::fromIterable);
-    }
-
-    private boolean validate(List<SwopApiResponse> swopApiResponses, String targetCurrency) {
-        return swopApiResponses.stream().map(SwopApiResponse::getBaseCurrency).anyMatch("EUR"::equals) &&
-                (swopApiResponses.stream().map(SwopApiResponse::getQuoteCurrency).anyMatch(targetCurrency::equals) ||
-                        swopApiResponses.stream().map(SwopApiResponse::getBaseCurrency).anyMatch(targetCurrency::equals));
     }
 
 }
