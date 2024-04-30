@@ -1,6 +1,5 @@
 package com.swop.api.assignment.swopapi.service;
 
-import com.swop.api.assignment.swopapi.api.dto.CurrencyCodes;
 import com.swop.api.assignment.swopapi.api.dto.CurrencyResponse;
 import com.swop.api.assignment.swopapi.dto.SwopApiResponse;
 import com.swop.api.assignment.swopapi.exception.CurrencyExchangeBadRequestException;
@@ -29,10 +28,14 @@ public class CurrencyService {
     public Mono<CurrencyResponse> exchange(String sourceCurrency,
                                            String targetCurrency,
                                            Double amount) {
-        if (!new HashSet<>(CurrencyCodes.CURRENCY_CODES).containsAll(List.of(sourceCurrency, targetCurrency))) {
-            return Mono.error(new CurrencyExchangeBadRequestException("Invalid input data! Please use valid currency code!"));
+        if (isValidCurrency(sourceCurrency, targetCurrency) && amount < 0) {
+            return Mono.error(new CurrencyExchangeBadRequestException("Invalid input data! Please use valid currency code! Or check the value, it must be positive value"));
         }
         return exchangeCurrency(sourceCurrency, targetCurrency, amount);
+    }
+
+    private static boolean isValidCurrency(String sourceCurrency, String targetCurrency) {
+        return Currency.getAvailableCurrencies().contains(Currency.getInstance(sourceCurrency)) && Currency.getAvailableCurrencies().contains(Currency.getInstance(targetCurrency));
     }
 
     public Mono<CurrencyResponse> exchangeCurrency(String sourceCurrency,
