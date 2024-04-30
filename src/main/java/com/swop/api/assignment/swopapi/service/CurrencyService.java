@@ -15,7 +15,6 @@ import reactor.core.publisher.Mono;
 import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Function;
 
 import static com.swop.api.assignment.swopapi.util.ValidationUtil.isValidCurrency;
@@ -32,7 +31,7 @@ public class CurrencyService {
                                            String targetCurrency,
                                            Double amount) {
         if (!isValidCurrency(sourceCurrency, targetCurrency) || amount < 0) {
-            return Mono.error(new CurrencyExchangeBadRequestException("Invalid input data! Please use valid currency code! Or check the value, it must be positive value"));
+            return Mono.error(new CurrencyExchangeBadRequestException("Invalid input data! Please check the value, it must be a positive number"));
         }
         return exchangeCurrency(sourceCurrency, targetCurrency, amount);
     }
