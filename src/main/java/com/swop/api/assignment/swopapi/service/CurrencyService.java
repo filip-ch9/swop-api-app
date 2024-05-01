@@ -30,7 +30,8 @@ public class CurrencyService {
     public Mono<CurrencyResponse> exchange(String sourceCurrency,
                                            String targetCurrency,
                                            Double amount) {
-        if (!isValidCurrency(sourceCurrency, targetCurrency) || amount < 0) {
+        isValidCurrency(sourceCurrency, targetCurrency);
+        if (amount < 0) {
             return Mono.error(new CurrencyExchangeBadRequestException("Invalid input data! Please check the value, it must be a positive number"));
         }
         return exchangeCurrency(sourceCurrency, targetCurrency, amount);

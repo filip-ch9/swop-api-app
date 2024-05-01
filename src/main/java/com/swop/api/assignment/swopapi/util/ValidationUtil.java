@@ -8,16 +8,14 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Currency;
 import java.util.List;
-import java.util.Objects;
 
 @UtilityClass
 public class ValidationUtil {
     private static final Logger logger = LoggerFactory.getLogger(ValidationUtil.class);
     public static boolean isValidCurrency(String sourceCurrency, String targetCurrency) {
         try {
-            Currency source = Objects.nonNull(Currency.getInstance(sourceCurrency)) ? Currency.getInstance(sourceCurrency) : null;
-            Currency target = Objects.nonNull(Currency.getInstance(targetCurrency)) ? Currency.getInstance(sourceCurrency) : null;
-            return source != null && target != null;
+            return Currency.getAvailableCurrencies().contains(Currency.getInstance(sourceCurrency)) &&
+                    Currency.getAvailableCurrencies().contains(Currency.getInstance(targetCurrency));
         } catch (Exception e) {
             String errMsg = "Unable to find currencies with params: sourceCurrency: " + sourceCurrency + " and targetCurrency: " + targetCurrency;
             logger.error(errMsg);
