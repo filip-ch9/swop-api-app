@@ -45,7 +45,7 @@ To run this project, you will need the following:
    
 ## <img src="https://cdn.svgporn.com/logos/swagger.svg" width="20" height="20"> Swagger Documentation
 
-Access the Swagger documentation at [http://localhost:0/webjars/swagger-ui/index.html909](http://localhost:9090/webjars/swagger-ui/index.html) to explore the documentation for the API endpoints and their usage.
+Access the Swagger documentation at [http://localhost:9090/webjars/swagger-ui/index.html](http://localhost:9090/webjars/swagger-ui/index.html) to explore the documentation for the API endpoints and their usage.
 
 ## Testing the API
 You can test the API either directly from Swagger or using the following `curl` command:
