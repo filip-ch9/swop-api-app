@@ -11,7 +11,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.security.web.server.header.XXssProtectionServerHttpHeadersWriter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsWebFilter;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 
 @Configuration
@@ -22,14 +24,27 @@ public class WebSecurityConfig {
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http.httpBasic(ServerHttpSecurity.HttpBasicSpec::disable);
         http.formLogin(ServerHttpSecurity.FormLoginSpec::disable);
-        http.csrf(Customizer.withDefaults());
-        http.headers(headers ->
-                headers.xssProtection(
-                xss -> xss.headerValue(XXssProtectionServerHttpHeadersWriter.HeaderValue.ENABLED_MODE_BLOCK)
-        ).contentSecurityPolicy(
-                cps -> cps.policyDirectives("script-src 'self'")
-        ));
+        http.csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .headers(headers -> headers
+                        .xssProtection(Customizer.withDefaults())
+                        .contentSecurityPolicy(csp -> csp.policyDirectives("default-src 'self'")));
         return http.build();
+    }
+
+    @Bean
+    CorsWebFilter corsFilter() {
+
+        CorsConfiguration config = new CorsConfiguration();
+
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://localhost:8082");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+
+        return new CorsWebFilter(source);
     }
 
 

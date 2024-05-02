@@ -45,7 +45,7 @@ To run this project, you will need the following:
    
 ## <img src="https://cdn.svgporn.com/logos/swagger.svg" width="20" height="20"> Swagger Documentation
 
-Access the Swagger documentation at [http://localhost:9090/webjars/swagger-ui/index.html](http://localhost:9090/webjars/swagger-ui/index.html) to explore the documentation for the API endpoints and their usage.
+Access the Swagger documentation at [http://localhost:0/webjars/swagger-ui/index.html909](http://localhost:9090/webjars/swagger-ui/index.html) to explore the documentation for the API endpoints and their usage.
 
 ## Testing the API
 You can test the API either directly from Swagger or using the following `curl` command:
@@ -61,9 +61,9 @@ To run unit tests, execute the following command:
 ```
 
 ## Accessing the UI
-The frontend is set up with a minimalistic approach, utilizing a single HTML file containing the basic structure of the user interface. This HTML file incorporates some JavaScript code to add simple interactivity and functionality to the UI.
+Please read the [swop-api-app-fe](https://github.com/filip-ch9/swop-api-app-fe) README.md to start and access the UI 
 
-You can access the index.html file on http://localhost:63342/swop-api/swop-api.main/static/index.html?_ijt=ek7iirfhr9bd876cem4ffqgm7e&_ij_reload=RELOAD_ON_SAVE once the service has been started. Should look something like this: 
+Example picture of UI: 
 
-<img src="img.png" width="639" alt="">
+   <img src="img.png" width="700" height="500">
 
