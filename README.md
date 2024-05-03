@@ -50,7 +50,7 @@ Access the Swagger documentation at [http://localhost:9090/webjars/swagger-ui/in
 ## Testing the API
 You can test the API either directly from Swagger or using the following `curl` command:
 ```bash
-curl --location 'http://localhost:9090/api/currency/exchange?base_currency=USD&target_currency=EUR&amount=140'
+curl --location 'http://localhost:9090/api/currency/exchange?source_currency=USD&target_currency=EUR&amount=140'
 ```
 
 ## Unit tests
