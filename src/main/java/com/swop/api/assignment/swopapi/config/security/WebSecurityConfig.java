@@ -24,7 +24,7 @@ public class WebSecurityConfig {
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http.httpBasic(ServerHttpSecurity.HttpBasicSpec::disable);
         http.formLogin(ServerHttpSecurity.FormLoginSpec::disable);
-        http.csrf(ServerHttpSecurity.CsrfSpec::disable)
+        http.csrf(Customizer.withDefaults())
                 .headers(headers -> headers
                         .xssProtection(Customizer.withDefaults())
                         .contentSecurityPolicy(csp -> csp.policyDirectives("default-src 'self'")));
