@@ -38,7 +38,7 @@ public class WebSecurityConfig {
 
         config.setAllowCredentials(true);
         config.addAllowedOrigin("http://localhost:8080");
-        config.addAllowedOrigin("http://localhost:8082");
+        config.addAllowedOrigin("http://localhost:63342");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
 
@@ -46,18 +46,6 @@ public class WebSecurityConfig {
         source.registerCorsConfiguration("/**", config);
 
         return new CorsWebFilter(source);
-    }
-
-
-    @Bean
-    public MapReactiveUserDetailsService userDetailsRepository() {
-        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        UserDetails user = User
-                .withUsername("user")
-                .password(encoder.encode("user"))
-                .roles("USER", "ADMIN")
-                .build();
-        return new MapReactiveUserDetailsService(user);
     }
 
 }

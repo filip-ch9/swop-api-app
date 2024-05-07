@@ -21,7 +21,7 @@ import java.lang.annotation.Target;
         description = "Converting an amount of money from one currency to another based on today's exchange rate")
 @ApiResponses(value = {
         @ApiResponse(
-                responseCode = "201",
+                responseCode = "200",
                 description = "Successful currency exchange",
                 content = @Content(mediaType = "application/json",
                         schema = @Schema(implementation = CurrencyResponse.class)
