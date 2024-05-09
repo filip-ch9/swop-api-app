@@ -38,6 +38,18 @@ import java.lang.annotation.Target;
                          """
                 ))
         ),
+        @ApiResponse(responseCode = "404", description = "Not Found Currency",
+                content = @Content(mediaType = "application/json",
+                        schema = @Schema(implementation = ApiError.class),
+                        examples = @ExampleObject(
+                                """     
+                                   {
+                                      "status": NOT FOUND,
+                                      "message": "Unsupported currency provided"    
+                                   }
+                                 """
+                        ))
+        ),
         @ApiResponse(responseCode = "500", description = "Server Error",
                 content = @Content(mediaType = "application/json",
                         schema = @Schema(implementation = ApiError.class),

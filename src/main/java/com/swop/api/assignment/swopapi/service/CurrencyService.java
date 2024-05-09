@@ -3,7 +3,8 @@ package com.swop.api.assignment.swopapi.service;
 import com.swop.api.assignment.swopapi.api.dto.CurrencyResponse;
 import com.swop.api.assignment.swopapi.dto.SwopApiResponse;
 import com.swop.api.assignment.swopapi.exception.CurrencyExchangeBadRequestException;
-import com.swop.api.assignment.swopapi.exception.CurrencyExchangeException;
+import com.swop.api.assignment.swopapi.exception.CurrencyExchangeNotFoundException;
+import com.swop.api.assignment.swopapi.exception.CurrencyExchangeUnexpectedException;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -43,12 +44,13 @@ public class CurrencyService {
         return getCurrencyCache()
                 .collectList()
                 .flatMap(currencyList -> {
-                    if (validate(currencyList, targetCurrency)) {
+                    if (validate(currencyList, targetCurrency, sourceCurrency)) {
                         return calculateCurrencyExchange(sourceCurrency, targetCurrency, amount, currencyList);
                     }
+                    String errorMessage = "Not able to preform currency exchange due to unsupported currencies provided: source: " + sourceCurrency + " target: " + targetCurrency;
                     logger.error("Unable to perform currency exchange with params: currency:{}, target currency:{}, amount:{}",
                             sourceCurrency, targetCurrency, amount);
-                    return Mono.error(new CurrencyExchangeException("Something went wrong while calculating exchange"));
+                    return Mono.error(new CurrencyExchangeNotFoundException(errorMessage));
                 });
     }
 
@@ -67,7 +69,7 @@ public class CurrencyService {
                     .monetaryValue(formatMonetaryValue(amount * rate, targetCurrency))
                     .build());
         } else {
-            return Mono.error(new CurrencyExchangeException("Error occurred while calculating exchange rate"));
+            return Mono.error(new CurrencyExchangeUnexpectedException("Error occurred while calculating exchange rate"));
         }
     }
 

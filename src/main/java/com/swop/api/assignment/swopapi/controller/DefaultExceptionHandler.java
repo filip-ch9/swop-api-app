@@ -2,7 +2,8 @@ package com.swop.api.assignment.swopapi.controller;
 
 import com.swop.api.assignment.swopapi.api.dto.ApiError;
 import com.swop.api.assignment.swopapi.exception.CurrencyExchangeBadRequestException;
-import com.swop.api.assignment.swopapi.exception.CurrencyExchangeException;
+import com.swop.api.assignment.swopapi.exception.CurrencyExchangeNotFoundException;
+import com.swop.api.assignment.swopapi.exception.CurrencyExchangeUnexpectedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,11 +24,20 @@ public class DefaultExceptionHandler {
     }
 
     @ExceptionHandler(value = {
-            CurrencyExchangeException.class
+            CurrencyExchangeUnexpectedException.class
     })
     private ResponseEntity<Object> handleInternalServerErrorException(Exception ex) {
         ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage());
         log.error("Internal server error:{}", apiError);
+        return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
+    }
+
+    @ExceptionHandler(value = {
+            CurrencyExchangeNotFoundException.class
+    })
+    private ResponseEntity<Object> handleNotFoundException(Exception ex) {
+        ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage());
+        log.error("Not Found Error:{}", apiError);
         return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 

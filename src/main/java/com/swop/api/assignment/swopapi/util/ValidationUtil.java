@@ -16,16 +16,21 @@ public class ValidationUtil {
         try {
             return Currency.getAvailableCurrencies().contains(Currency.getInstance(sourceCurrency)) &&
                     Currency.getAvailableCurrencies().contains(Currency.getInstance(targetCurrency));
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             String errMsg = "Unable to find currencies with params: sourceCurrency: " + sourceCurrency + " and targetCurrency: " + targetCurrency;
-            logger.error(errMsg);
+            logger.error("Error message: {}, cause: {}", errMsg, e.getMessage());
             throw new CurrencyExchangeBadRequestException(errMsg);
         }
     }
 
-    public static boolean validate(List<SwopApiResponse> swopApiResponses, String targetCurrency) {
-        return swopApiResponses.stream().map(SwopApiResponse::getBaseCurrency).anyMatch("EUR"::equals) &&
-                (swopApiResponses.stream().map(SwopApiResponse::getQuoteCurrency).anyMatch(targetCurrency::equals) ||
-                        swopApiResponses.stream().map(SwopApiResponse::getBaseCurrency).anyMatch(targetCurrency::equals));
+    public static boolean validate(List<SwopApiResponse> swopApiResponses, String targetCurrency, String sourceCurrency) {
+        return swopApiResponses.stream()
+                .anyMatch(response ->
+                        (response.getBaseCurrency().equals("EUR") && response.getQuoteCurrency().equals(targetCurrency)) ||
+                                (response.getBaseCurrency().equals(targetCurrency) && response.getQuoteCurrency().equals("EUR"))) &&
+                swopApiResponses.stream()
+                        .anyMatch(response ->
+                                (response.getBaseCurrency().equals("EUR") && response.getQuoteCurrency().equals(sourceCurrency)) ||
+                                        (response.getBaseCurrency().equals(sourceCurrency) && response.getQuoteCurrency().equals("EUR")));
     }
 }

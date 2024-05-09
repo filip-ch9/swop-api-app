@@ -15,9 +15,4 @@ public class ApiError {
         this.message = message;
     }
 
-    public ApiError(HttpStatus status, String message, String error) {
-        super();
-        this.status = status;
-        this.message = message;
-    }
 }
