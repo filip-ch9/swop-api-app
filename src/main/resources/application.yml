@@ -14,6 +14,9 @@ web:
   swop-base-url: https://swop.cx
   api-key: ApiKey b9dfb628b30ca616f79395045750b7b94688ed6b00006593f79ee410500fa574
 
+redis:
+  url: redis://localhost:6379/0
+
 management:
   health:
     influxdb:

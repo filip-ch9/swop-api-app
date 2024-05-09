@@ -4,19 +4,20 @@
 This project is a Spring Boot application providing an open API for currency exchange. It allows users to retrieve exchange rates for different currencies and perform currency conversions. The application employs various technologies such as Spring Boot with WebFlux for asynchronous and non-blocking processing, Caffeine cache for optimizing performance, Spring Security for CSRF (Cross-Site Request Forgery) and CSP (Content Security Policy) protection, InfluxDB with Grafana integration for monitoring system metrics, and Docker Compose for easy deployment and management.
 
 ## Stack Used
-- ```Spring Boot with WebFlux``` Enables asynchronous and reactive programming, enhancing performance and scalability.
-- ```Caffeine Cache``` Improves response time by caching frequently accessed data.
-- ```Spring Security (CSRF and CSP)``` Provides security measures to prevent common web vulnerabilities.
-- ```InfluxDB with Grafana Integration``` Stores and visualizes system metrics for monitoring and analysis.
-- ```Docker Compose``` Simplifies deployment and management of containerized applications.
+- `Spring Boot with WebFlux` Enables asynchronous and reactive programming, enhancing performance and scalability.
+- `Redis Cache` Redis cache for simplicity of reusing the same cache for multiple instances running.
+- `Spring Security (CSRF and CSP)` Provides security measures to prevent common web vulnerabilities.
+- `InfluxDB with Grafana Integration` Stores and visualizes system metrics for monitoring and analysis.
+- `Docker Compose` Simplifies deployment and management of containerized applications.
 
 ## Prerequisites
 To run this project, you will need the following:
-- ```Docker``` - ```brew install docker```
-- ```IntelliJ IDEA``` - [Reference](https://www.jetbrains.com/help/idea/installation-guide.html)
-- ```Java 17``` 
-- ```InfluxDB``` - ```brew install influxdb``` to start the server use: ```brew services start influxdb```
-- ```Grafana``` - ```brew install grafana``` to start grafana use: ```brew services start grafana```
+- `Docker` - `brew install docker`
+- `IntelliJ IDEA` - [Reference](https://www.jetbrains.com/help/idea/installation-guide.html)
+- `Java 17` 
+- `InfluxDB` - `brew install influxdb` to start the server use: `brew services start influxdb`
+- `Grafana` - `brew install grafana` to start grafana use: `brew services start grafana`
+- `Redis` - `brew install redis` to start the server use: `brew services start redis`
 
 ### For optional metrics setup:
 1. Access InfluxDB at http://localhost:8086 and configure the project with the following details:
@@ -34,7 +35,8 @@ To run this project, you will need the following:
 ### IntelliJ way: 
 1. Open the project, and run the influx and grafana before anything else `[OPTIONAL]`
 2. Build the project with gradle or run in the terminal `./gradlew build`
-3. Start the application with IntelliJ
+3. Start redis service in terminal `brew services start redis`
+4. Start the application with IntelliJ
 ### Docker way: 
 1. Run the provided docker-compose.yml. This will start all three images influx, grafana, and the swop-api.
 2. Optional steps: 

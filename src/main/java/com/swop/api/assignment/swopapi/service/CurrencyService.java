@@ -16,7 +16,6 @@ import reactor.core.publisher.Mono;
 import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.List;
-import java.util.function.Function;
 
 import static com.swop.api.assignment.swopapi.util.ValidationUtil.isValidCurrency;
 import static com.swop.api.assignment.swopapi.util.ValidationUtil.validate;
@@ -25,7 +24,7 @@ import static com.swop.api.assignment.swopapi.util.ValidationUtil.validate;
 @RequiredArgsConstructor
 public class CurrencyService {
 
-    private final Function<String, Mono<List<SwopApiResponse>>> swopCache;
+    private final RedisService redisService;
     private static final Logger logger = LoggerFactory.getLogger(CurrencyService.class);
 
     public Mono<CurrencyResponse> exchange(String sourceCurrency,
@@ -90,7 +89,7 @@ public class CurrencyService {
     }
 
     public Flux<SwopApiResponse> getCurrencyCache() {
-        return swopCache.apply("currencies").flatMapMany(Flux::fromIterable);
+        return redisService.saveAndFetchRedisCache();
     }
 
 }

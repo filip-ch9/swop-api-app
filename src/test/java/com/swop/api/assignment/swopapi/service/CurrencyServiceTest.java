@@ -9,10 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import reactor.core.publisher.Mono;
-
-import java.util.List;
-import java.util.function.Function;
+import reactor.core.publisher.Flux;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -25,7 +22,7 @@ import static org.mockito.Mockito.when;
 class CurrencyServiceTest {
 
     @Mock
-    private Function<String, Mono<List<SwopApiResponse>>> swopCache;
+    private RedisService redisService;
 
     @InjectMocks
     private CurrencyService currencyService;
@@ -46,7 +43,7 @@ class CurrencyServiceTest {
                 .sourceCurrency("USD")
                 .targetCurrency("GBP")
                 .monetaryValue("79.44 £").build();
-        when(swopCache.apply("currencies")).thenReturn(Mono.just(List.of(usdResponse, gbpResponse)));
+        when(redisService.saveAndFetchRedisCache()).thenReturn(Flux.just(usdResponse, gbpResponse));
 
         CurrencyResponse result = currencyService.exchangeCurrency("USD", "GBP", 100.0).block();
 
@@ -72,7 +69,7 @@ class CurrencyServiceTest {
                 .sourceCurrency("EUR")
                 .targetCurrency("EUR")
                 .monetaryValue("100 €").build();
-        when(swopCache.apply("currencies")).thenReturn(Mono.just(List.of(usdResponse, eurResponse)));
+        when(redisService.saveAndFetchRedisCache()).thenReturn(Flux.just(usdResponse, eurResponse));
 
         CurrencyResponse result = currencyService.exchangeCurrency("EUR", "EUR", 100.0).block();
 
@@ -103,7 +100,7 @@ class CurrencyServiceTest {
                 .sourceCurrency("USD")
                 .targetCurrency("EUR")
                 .monetaryValue("93.46 €").build();
-        when(swopCache.apply("currencies")).thenReturn(Mono.just(List.of(usdResponse, gbpResponse, eurResponse)));
+        when(redisService.saveAndFetchRedisCache()).thenReturn(Flux.just(usdResponse, eurResponse, gbpResponse));
 
         CurrencyResponse result = currencyService.exchangeCurrency("USD", "EUR", 100.0).block();
 
@@ -151,7 +148,7 @@ class CurrencyServiceTest {
                 .quoteCurrency("EUR")
                 .quote(1.0)
                 .build();
-        when(swopCache.apply("currencies")).thenReturn(Mono.just(List.of(usdResponse, eurResponse)));
+        when(redisService.saveAndFetchRedisCache()).thenReturn(Flux.just(usdResponse, eurResponse));
         String sourceCurrency = "KYD";
         String targetCurrency = "EUR";
         Double amount = 100.0;
