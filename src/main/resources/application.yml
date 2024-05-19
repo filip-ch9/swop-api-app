@@ -12,7 +12,7 @@ server:
 
 web:
   swop-base-url: https://swop.cx
-  api-key: ApiKey b9dfb628b30ca616f79395045750b7b94688ed6b00006593f79ee410500fa574
+  api-key: { SWOP_API_TOKEN }
 
 redis:
   url: redis://localhost:6379/0
@@ -24,7 +24,7 @@ management:
 
 influx:
   bucket: swop-api-metrics
-  token: Token yFWDejRYAeRbLVzgtlgReZJikNI8UAD3pJNQw0bZ-udOPRJw4PNqwtjO8ZkIMKi9uzo9JOo66_Azd-idyD1VWw==
+  token: { INFLUX_DB_TOKEN }
   org: swop-api
   uri: http://localhost:8086/
   user-name: admin
